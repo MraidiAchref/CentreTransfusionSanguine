@@ -1,0 +1,10 @@
+1, aa, aa, Béja, 1 
+2, ee, ee, Tunis (capital), 1 
+3, ee, aaa, Ariana, 15 
+4, kk, uuu, Ariana, 4 
+5, ee, ee, Zaghouan, 1 
+6, aa, rr, yyy, 0 
+7, zz, rrr, tt, 10 
+8, fff, ttt, bbb, 0 
+9, fff, ttt, bbb, 15 
+10, ee, ee, rr, 19 
