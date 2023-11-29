@@ -42,7 +42,7 @@ Date get_date_from_entry(GtkEntry *entry)
     Date date;
     const char *date_str = gtk_entry_get_text(GTK_ENTRY(entry));
 
-    sscanf(date_str, "%d-%d-%d", &date.day, &date.month, &date.year);
+    sscanf(date_str, "%02d-%02d-%d", &date.day, &date.month, &date.year);
 
     return date;
 }
@@ -148,7 +148,7 @@ void afficher_utilisateur(GtkWidget *liste, char nomFichier[] )
         {
             while (fscanf(f, "%29[^,], %29[^,], %29[^,], %29[^,], %29[^,], %d-%d-%d, %29[^,],\n", ID, nom, prenom, sexe, role, &D.day, &D.month, &D.year, password ) != EOF)
             {
-                g_snprintf(Date, sizeof(Date), "%02d-%02d-%d", D.day, D.month, D.year);
+                g_snprintf(Date, sizeof(Date), "%02d-%02d-%04d", D.day, D.month, D.year);
 
                 gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter,  IDENTIFIANT, ID, NOM, nom, PRENOM, prenom, SEXE, sexe, ROLE, role, DATE, Date, PASSWORD, password, -1);
@@ -384,7 +384,7 @@ int is_ID_exists(const char *ID) {
             if (sscanf(line, "%19[^,],", stored_ID) == 1) {
                 if (strcmp(ID, stored_ID) == 0) {
                     fclose(f);
-                    return 1; // ID already exists
+                    return 1; 
                 }
             }
         }
@@ -395,6 +395,36 @@ int is_ID_exists(const char *ID) {
 
 
 
+void search_character(const char nomFichier[], const char *searchTerm) {
+    FILE *inputFile = fopen(nomFichier, "r");
+    FILE *outputFile = fopen("searchedUsers.txt", "w");
+
+    if (inputFile == NULL || outputFile == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    Utilisateur user;
+
+    while (fscanf(inputFile, "%29[^,], %29[^,], %29[^,], %29[^,], %29[^,], %d-%d-%d, %29[^,],\n",
+                  user.ID, user.Nom, user.Prenom, user.Sexe, user.Role, &user.D.day, &user.D.month, &user.D.year,
+                  user.Password) != EOF) {
+
+        char dateStr[20];
+        snprintf(dateStr, sizeof(dateStr), "%d-%d-%d", user.D.day, user.D.month, user.D.year);
+
+        if (strstr(user.ID, searchTerm) || strstr(user.Nom, searchTerm) || strstr(user.Prenom, searchTerm) ||
+            strstr(user.Sexe, searchTerm) || strstr(user.Role, searchTerm) || strstr(user.Password, searchTerm) ||
+            strstr(dateStr, searchTerm)) {
+            fprintf(outputFile, "%s, %s, %s, %s, %s, %d-%d-%d, %s,\n",
+                    user.ID, user.Nom, user.Prenom, user.Sexe, user.Role, user.D.day, user.D.month, user.D.year,
+                    user.Password);
+        }
+    }
+
+    fclose(inputFile);
+    fclose(outputFile);
+}
 
 
 

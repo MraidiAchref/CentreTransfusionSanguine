@@ -37,3 +37,4 @@ void apply_style_textColor(GtkWidget *widget , const char *colorID) ;
 void apply_style_bg(GtkWidget *widget , const char *colorID) ;
 void apply_style_fg(GtkWidget *widget , const char *colorID) ;
 void set_label_font(GtkLabel *label, const char *font_description) ;
+void searcherETS(const char *fileName , const char *key ) ;

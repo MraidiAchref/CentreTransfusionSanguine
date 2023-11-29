@@ -496,3 +496,27 @@ void set_label_font(GtkLabel *label, const char *font_description) {
     pango_font_description_free(font_desc);
 }
 
+
+void searcherETS(const char *fileName , const char *key ) {
+	FILE *file = fopen(fileName, "r");
+	FILE *file2 = fopen("searchResult.txt", "w");
+	ETS newEts ;
+	char IDtostr[30] , capaciteTostr[30] ; 
+	
+	if (file != NULL  ) {
+        	while( (fscanf(file,"%d, %29[^,], %29[^,], %29[^,], %d \n", &newEts.ID ,newEts.Nom ,newEts.Adresse,newEts.Region ,&newEts.Capacite )) == 5 )  {
+			sprintf(IDtostr, "%d" , newEts.ID);
+			sprintf(capaciteTostr, "%d" , newEts.Capacite);
+		   	if ((strstr(key, newEts.Nom) != NULL)||(strstr(key, newEts.Adresse) != NULL)||(strstr(key, newEts.Region) != NULL)||(strstr(key, IDtostr) != NULL)||(strstr(key, capaciteTostr) != NULL)  ) {
+				fprintf(file2,"%d, %s, %s, %s, %d \n",newEts.ID ,newEts.Nom ,newEts.Adresse , newEts.Region , newEts.Capacite  );
+		    	if (feof(file2)) {break ;}
+		    	}
+        	}
+    	}
+	fclose(file);
+	fclose(file2);
+	
+
+}
+
+

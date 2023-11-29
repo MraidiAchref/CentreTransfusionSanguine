@@ -1694,3 +1694,56 @@ on_lum_button_admin_clicked            (GtkWidget       *objet_graphique,
 
 }
 
+
+void
+on_button_search_firas_clicked (GtkWidget *objet_graphique, gpointer user_data)
+{
+    GtkWidget *espaceAdmin, *w1;
+
+    w1 = lookup_widget(objet_graphique, "espaceAdmin");
+    espaceAdmin = create_espaceAdmin();
+    gtk_widget_show(espaceAdmin);
+    gtk_widget_hide(w1);
+			GtkNotebook *notebook = lookup_widget(espaceAdmin, "notebook1");
+	gtk_notebook_set_current_page(notebook, 1);
+
+    GtkWidget *entry_search_firas = lookup_widget(objet_graphique, "entry_search_firas");
+
+    const char *selected = gtk_entry_get_text(GTK_ENTRY(entry_search_firas));
+
+    GtkWidget *treeview_Firas = lookup_widget(espaceAdmin, "treeview_Firas");
+    vider(treeview_Firas);
+
+	search_character("Utilisateur.txt",selected);
+	afficher_utilisateur(treeview_Firas,"searchedUsers.txt");
+     GtkWidget *treeviewETS_achref = lookup_widget(espaceAdmin, "treeviewETS_achref");
+	display_ets(treeviewETS_achref,"ets.txt") ;
+}
+
+
+void
+on_button_search_key_ETS_clicked       (GtkWidget *objet_graphique, gpointer user_data)
+{
+    GtkWidget *espaceAdmin, *w1;
+
+    w1 = lookup_widget(objet_graphique, "espaceAdmin");
+    espaceAdmin = create_espaceAdmin();
+    gtk_widget_show(espaceAdmin);
+    gtk_widget_hide(w1);
+	GtkNotebook *notebook = lookup_widget(espaceAdmin, "notebook1");
+	gtk_notebook_set_current_page(notebook, 0);
+
+    GtkWidget *entry_search_ETS = lookup_widget(objet_graphique, "entry_search_ETS");
+
+    const char *selected = gtk_entry_get_text(GTK_ENTRY(entry_search_ETS));
+
+    GtkWidget *treeviewETS_achref = lookup_widget(espaceAdmin, "treeviewETS_achref");
+	searcherETS("ets.txt",selected);
+	display_ets(treeviewETS_achref,"searchResult.txt") ;
+
+	GtkWidget *treeview_Firas = lookup_widget(espaceAdmin, "treeview_Firas");
+        afficher_utilisateur(treeview_Firas,"Utilisateur.txt");
+	
+
+}
+

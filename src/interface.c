@@ -11,7 +11,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
-#include "ets.h"
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
@@ -713,11 +712,6 @@ create_espaceAdmin (void)
   GSList *radiobutton_tous_achref_ets_group = NULL;
   GtkWidget *radiobutton_parregioin_achref_ets;
   GtkWidget *label_trier_achref_ets;
-  GtkWidget *button_confirm_triage_ets;
-  GtkWidget *alignment8;
-  GtkWidget *hbox8;
-  GtkWidget *image8;
-  GtkWidget *label99;
   GtkWidget *scrolledwindow1;
   GtkWidget *treeviewETS_achref;
   GtkWidget *Refresh_button_achref;
@@ -740,6 +734,14 @@ create_espaceAdmin (void)
   GtkWidget *hbox26;
   GtkWidget *image27;
   GtkWidget *label114;
+  GtkWidget *button_confirm_triage_ets;
+  GtkWidget *alignment8;
+  GtkWidget *hbox8;
+  GtkWidget *image8;
+  GtkWidget *label99;
+  GtkWidget *entry_search_ETS;
+  GtkWidget *button_search_key_ETS;
+  GtkWidget *image35;
   GtkWidget *label93;
   GtkWidget *fixed9;
   GtkWidget *button_Firas_Supprimer;
@@ -774,6 +776,9 @@ create_espaceAdmin (void)
   GtkWidget *label_Firas_Filtrer;
   GtkWidget *label101;
   GtkWidget *label_F_Role;
+  GtkWidget *entry_search_firas;
+  GtkWidget *button_search_firas;
+  GtkWidget *image34;
   GtkWidget *label94;
   GtkWidget *fixed10;
   GtkWidget *label95;
@@ -811,9 +816,6 @@ create_espaceAdmin (void)
   gtk_box_pack_start (GTK_BOX (hbox22), label110, FALSE, FALSE, 0);
 
   label_bienvenueAdmin = gtk_label_new (_("Bienvenue \303\240 l'espace Administrateur"));
-  apply_style_fg(label_bienvenueAdmin , "#DCB540") ;
-  set_label_font(GTK_LABEL(label_bienvenueAdmin), "Georgia 20") ;  
-
   gtk_widget_show (label_bienvenueAdmin);
   gtk_fixed_put (GTK_FIXED (fixed7), label_bienvenueAdmin, 40, 8);
   gtk_widget_set_size_request (label_bienvenueAdmin, 784, 58);
@@ -827,7 +829,7 @@ create_espaceAdmin (void)
   lum_button_admin = gtk_button_new ();
   gtk_widget_show (lum_button_admin);
   gtk_fixed_put (GTK_FIXED (fixed7), lum_button_admin, 992, 32);
-  gtk_widget_set_size_request (lum_button_admin, 98, 29);
+  gtk_widget_set_size_request (lum_button_admin, 105, 29);
 
   alignment28 = gtk_alignment_new (0.5, 0.5, 0, 0);
   gtk_widget_show (alignment28);
@@ -856,8 +858,8 @@ create_espaceAdmin (void)
 
   table_triage_ets = gtk_table_new (8, 1, FALSE);
   gtk_widget_show (table_triage_ets);
-  gtk_fixed_put (GTK_FIXED (fixed8), table_triage_ets, 1149, 84);
-  gtk_widget_set_size_request (table_triage_ets, 230, 300);
+  gtk_fixed_put (GTK_FIXED (fixed8), table_triage_ets, 1149, 176);
+  gtk_widget_set_size_request (table_triage_ets, 230, 288);
   gtk_table_set_row_spacings (GTK_TABLE (table_triage_ets), 4);
 
   label_afficher_achref_ets = gtk_label_new (_("Afficher "));
@@ -962,27 +964,6 @@ create_espaceAdmin (void)
   gtk_widget_set_size_request (label_trier_achref_ets, -1, 30);
   gtk_misc_set_alignment (GTK_MISC (label_trier_achref_ets), 0.3, 0.5);
 
-  button_confirm_triage_ets = gtk_button_new ();
-  gtk_widget_show (button_confirm_triage_ets);
-  gtk_fixed_put (GTK_FIXED (fixed8), button_confirm_triage_ets, 1152, 368);
-  gtk_widget_set_size_request (button_confirm_triage_ets, 240, 32);
-
-  alignment8 = gtk_alignment_new (0.5, 0.5, 0, 0);
-  gtk_widget_show (alignment8);
-  gtk_container_add (GTK_CONTAINER (button_confirm_triage_ets), alignment8);
-
-  hbox8 = gtk_hbox_new (FALSE, 2);
-  gtk_widget_show (hbox8);
-  gtk_container_add (GTK_CONTAINER (alignment8), hbox8);
-
-  image8 = gtk_image_new_from_stock ("gtk-find", GTK_ICON_SIZE_BUTTON);
-  gtk_widget_show (image8);
-  gtk_box_pack_start (GTK_BOX (hbox8), image8, FALSE, FALSE, 0);
-
-  label99 = gtk_label_new_with_mnemonic (_("Confirmer"));
-  gtk_widget_show (label99);
-  gtk_box_pack_start (GTK_BOX (hbox8), label99, FALSE, FALSE, 0);
-
   scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
   gtk_widget_show (scrolledwindow1);
   gtk_fixed_put (GTK_FIXED (fixed8), scrolledwindow1, 16, 32);
@@ -992,7 +973,6 @@ create_espaceAdmin (void)
   gtk_widget_show (treeviewETS_achref);
   gtk_container_add (GTK_CONTAINER (scrolledwindow1), treeviewETS_achref);
   gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeviewETS_achref), TRUE);
-  gtk_tree_view_set_hover_selection (GTK_TREE_VIEW (treeviewETS_achref), TRUE);
 
   Refresh_button_achref = gtk_button_new ();
   gtk_widget_show (Refresh_button_achref);
@@ -1079,6 +1059,42 @@ create_espaceAdmin (void)
   gtk_widget_show (label114);
   gtk_box_pack_start (GTK_BOX (hbox26), label114, FALSE, FALSE, 0);
 
+  button_confirm_triage_ets = gtk_button_new ();
+  gtk_widget_show (button_confirm_triage_ets);
+  gtk_fixed_put (GTK_FIXED (fixed8), button_confirm_triage_ets, 1160, 448);
+  gtk_widget_set_size_request (button_confirm_triage_ets, 240, 32);
+
+  alignment8 = gtk_alignment_new (0.5, 0.5, 0, 0);
+  gtk_widget_show (alignment8);
+  gtk_container_add (GTK_CONTAINER (button_confirm_triage_ets), alignment8);
+
+  hbox8 = gtk_hbox_new (FALSE, 2);
+  gtk_widget_show (hbox8);
+  gtk_container_add (GTK_CONTAINER (alignment8), hbox8);
+
+  image8 = gtk_image_new_from_stock ("gtk-find", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image8);
+  gtk_box_pack_start (GTK_BOX (hbox8), image8, FALSE, FALSE, 0);
+
+  label99 = gtk_label_new_with_mnemonic (_("Confirmer"));
+  gtk_widget_show (label99);
+  gtk_box_pack_start (GTK_BOX (hbox8), label99, FALSE, FALSE, 0);
+
+  entry_search_ETS = gtk_entry_new ();
+  gtk_widget_show (entry_search_ETS);
+  gtk_fixed_put (GTK_FIXED (fixed8), entry_search_ETS, 1168, 72);
+  gtk_widget_set_size_request (entry_search_ETS, 160, 27);
+  gtk_entry_set_invisible_char (GTK_ENTRY (entry_search_ETS), 8226);
+
+  button_search_key_ETS = gtk_button_new ();
+  gtk_widget_show (button_search_key_ETS);
+  gtk_fixed_put (GTK_FIXED (fixed8), button_search_key_ETS, 1320, 72);
+  gtk_widget_set_size_request (button_search_key_ETS, 36, 27);
+
+  image35 = gtk_image_new_from_stock ("gtk-find", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image35);
+  gtk_container_add (GTK_CONTAINER (button_search_key_ETS), image35);
+
   label93 = gtk_label_new (_("Gestion Etablissement"));
   gtk_widget_show (label93);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 0), label93);
@@ -1161,7 +1177,6 @@ create_espaceAdmin (void)
   gtk_container_add (GTK_CONTAINER (scrolledwindow_firas), treeview_Firas);
   gtk_widget_set_size_request (treeview_Firas, 300, 209);
   gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (treeview_Firas), TRUE);
-  gtk_tree_view_set_hover_selection (GTK_TREE_VIEW (treeview_Firas), TRUE);
 
   button_Firas_Modifier = gtk_button_new ();
   gtk_widget_show (button_Firas_Modifier);
@@ -1235,6 +1250,21 @@ create_espaceAdmin (void)
   gtk_fixed_put (GTK_FIXED (fixed9), label_F_Role, 1136, 248);
   gtk_widget_set_size_request (label_F_Role, 104, 35);
 
+  entry_search_firas = gtk_entry_new ();
+  gtk_widget_show (entry_search_firas);
+  gtk_fixed_put (GTK_FIXED (fixed9), entry_search_firas, 1128, 16);
+  gtk_widget_set_size_request (entry_search_firas, 160, 27);
+  gtk_entry_set_invisible_char (GTK_ENTRY (entry_search_firas), 8226);
+
+  button_search_firas = gtk_button_new ();
+  gtk_widget_show (button_search_firas);
+  gtk_fixed_put (GTK_FIXED (fixed9), button_search_firas, 1285, 16);
+  gtk_widget_set_size_request (button_search_firas, 36, 27);
+
+  image34 = gtk_image_new_from_stock ("gtk-find", GTK_ICON_SIZE_BUTTON);
+  gtk_widget_show (image34);
+  gtk_container_add (GTK_CONTAINER (button_search_firas), image34);
+
   label94 = gtk_label_new (_("Gestion des utilisateurs "));
   gtk_widget_show (label94);
   gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 1), label94);
@@ -1255,9 +1285,6 @@ create_espaceAdmin (void)
   g_signal_connect ((gpointer) lum_button_admin, "clicked",
                     G_CALLBACK (on_lum_button_admin_clicked),
                     NULL);
-  g_signal_connect ((gpointer) button_confirm_triage_ets, "clicked",
-                    G_CALLBACK (on_button_confirm_triage_ets_clicked),
-                    NULL);
   g_signal_connect ((gpointer) treeviewETS_achref, "button_press_event",
                     G_CALLBACK (on_treeviewETS_achref_button_press_event),
                     NULL);
@@ -1272,6 +1299,12 @@ create_espaceAdmin (void)
                     NULL);
   g_signal_connect ((gpointer) supprimerButton_achref_ets, "clicked",
                     G_CALLBACK (on_supprimerButton_achref_ets_clicked),
+                    NULL);
+  g_signal_connect ((gpointer) button_confirm_triage_ets, "clicked",
+                    G_CALLBACK (on_button_confirm_triage_ets_clicked),
+                    NULL);
+  g_signal_connect ((gpointer) button_search_key_ETS, "clicked",
+                    G_CALLBACK (on_button_search_key_ETS_clicked),
                     NULL);
   g_signal_connect ((gpointer) button_Firas_Supprimer, "clicked",
                     G_CALLBACK (on_button_Firas_Supprimer_clicked),
@@ -1290,6 +1323,9 @@ create_espaceAdmin (void)
                     NULL);
   g_signal_connect ((gpointer) button_Firas_Chercher, "clicked",
                     G_CALLBACK (on_button_Firas_Chercher_clicked),
+                    NULL);
+  g_signal_connect ((gpointer) button_search_firas, "clicked",
+                    G_CALLBACK (on_button_search_firas_clicked),
                     NULL);
 
   /* Store pointers to all widgets, for use by lookup_widget(). */
@@ -1320,11 +1356,6 @@ create_espaceAdmin (void)
   GLADE_HOOKUP_OBJECT (espaceAdmin, radiobutton_tous_achref_ets, "radiobutton_tous_achref_ets");
   GLADE_HOOKUP_OBJECT (espaceAdmin, radiobutton_parregioin_achref_ets, "radiobutton_parregioin_achref_ets");
   GLADE_HOOKUP_OBJECT (espaceAdmin, label_trier_achref_ets, "label_trier_achref_ets");
-  GLADE_HOOKUP_OBJECT (espaceAdmin, button_confirm_triage_ets, "button_confirm_triage_ets");
-  GLADE_HOOKUP_OBJECT (espaceAdmin, alignment8, "alignment8");
-  GLADE_HOOKUP_OBJECT (espaceAdmin, hbox8, "hbox8");
-  GLADE_HOOKUP_OBJECT (espaceAdmin, image8, "image8");
-  GLADE_HOOKUP_OBJECT (espaceAdmin, label99, "label99");
   GLADE_HOOKUP_OBJECT (espaceAdmin, scrolledwindow1, "scrolledwindow1");
   GLADE_HOOKUP_OBJECT (espaceAdmin, treeviewETS_achref, "treeviewETS_achref");
   GLADE_HOOKUP_OBJECT (espaceAdmin, Refresh_button_achref, "Refresh_button_achref");
@@ -1347,6 +1378,14 @@ create_espaceAdmin (void)
   GLADE_HOOKUP_OBJECT (espaceAdmin, hbox26, "hbox26");
   GLADE_HOOKUP_OBJECT (espaceAdmin, image27, "image27");
   GLADE_HOOKUP_OBJECT (espaceAdmin, label114, "label114");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, button_confirm_triage_ets, "button_confirm_triage_ets");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, alignment8, "alignment8");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, hbox8, "hbox8");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, image8, "image8");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, label99, "label99");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, entry_search_ETS, "entry_search_ETS");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, button_search_key_ETS, "button_search_key_ETS");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, image35, "image35");
   GLADE_HOOKUP_OBJECT (espaceAdmin, label93, "label93");
   GLADE_HOOKUP_OBJECT (espaceAdmin, fixed9, "fixed9");
   GLADE_HOOKUP_OBJECT (espaceAdmin, button_Firas_Supprimer, "button_Firas_Supprimer");
@@ -1381,6 +1420,9 @@ create_espaceAdmin (void)
   GLADE_HOOKUP_OBJECT (espaceAdmin, label_Firas_Filtrer, "label_Firas_Filtrer");
   GLADE_HOOKUP_OBJECT (espaceAdmin, label101, "label101");
   GLADE_HOOKUP_OBJECT (espaceAdmin, label_F_Role, "label_F_Role");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, entry_search_firas, "entry_search_firas");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, button_search_firas, "button_search_firas");
+  GLADE_HOOKUP_OBJECT (espaceAdmin, image34, "image34");
   GLADE_HOOKUP_OBJECT (espaceAdmin, label94, "label94");
   GLADE_HOOKUP_OBJECT (espaceAdmin, fixed10, "fixed10");
   GLADE_HOOKUP_OBJECT (espaceAdmin, label95, "label95");

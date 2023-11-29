@@ -50,8 +50,7 @@ void UserFilter(char nomFichier[], char role[], char sex[]);
 void UserSexe(char nomFichier[], char sexe[]);
 int is_ID_exists(const char *ID);
 void on_cell_edited(GtkCellRendererText *renderer, gchar *path_string, gchar *new_text, gpointer user_data) ;
-Date parse_date(const gchar *date_str);
-void date_to_string(const Date *date, char *date_str);
+void search_character(const char nomFichier[], const char *searchTerm);
 
 
 

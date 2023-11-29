@@ -243,3 +243,9 @@ on_button_Retour_Supp_clicked          (GtkButton       *button,
 void
 on_lum_button_admin_clicked            (GtkWidget       *objet_graphique,
                                         gpointer         user_data);
+
+void
+on_button_search_firas_clicked (GtkWidget *objet_graphique, gpointer user_data);
+
+void
+on_button_search_key_ETS_clicked       (GtkWidget *objet_graphique, gpointer user_data);
