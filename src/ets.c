@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "ets.h"
+#include <ctype.h>
+#include <gdk/gdk.h>
 
 
 
@@ -68,7 +70,7 @@ void display_ets(GtkTreeView  *liste , char nomFIchier[]){
 		renderer = gtk_cell_renderer_text_new() ;
 		column = gtk_tree_view_column_new_with_attributes(" ID",renderer,"text",ID,NULL);
 		gtk_tree_view_column_set_sizing(column,GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-		g_object_set(renderer, "editable", TRUE, NULL);
+		//g_object_set(renderer, "editable", TRUE, NULL);
 		g_object_set_data(G_OBJECT(renderer), "column-id", GINT_TO_POINTER(ID));
 		g_signal_connect(renderer, "edited", G_CALLBACK(on_cell_ets_edited), liste);
 		gtk_tree_view_append_column(GTK_TREE_VIEW(liste), column);	
@@ -497,19 +499,201 @@ void set_label_font(GtkLabel *label, const char *font_description) {
 }
 
 
+int statETs( ) {
+	int nbTOT = 0 , nb=0 ;
+
+    FILE * f=fopen("statEts.txt","w");
+    if (f!= NULL){
+
+	nb = ETSParRegion("ets.txt", "Ariana") ;
+	nbTOT += nb ;
+        fprintf(f,"Ariana, %d \n", nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Ben Arous") ;
+	nbTOT += nb ;
+        fprintf(f,"Ben Arous, %d \n",  nb) ;
+
+	nb = ETSParRegion("ets.txt", "Bizerte") ;
+	nbTOT += nb ;
+        fprintf(f,"Bizerte, %d \n",  nb) ;
+
+	nb = ETSParRegion("ets.txt", "Gabès");
+	nbTOT += nb ;
+        fprintf(f,"Gabès, %d \n", nb ) ;
+
+
+
+	nb = ETSParRegion("ets.txt", "Gafsa")  ;
+	nbTOT += nb ;
+        fprintf(f,"Gafsa, %d \n",nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Jendouba") ;
+	nbTOT += nb ;
+        fprintf(f,"Jendouba, %d \n", nb) ;
+
+	nb = ETSParRegion("ets.txt", "Kairouan")  ;
+	nbTOT += nb ;
+        fprintf(f,"Kairouan, %d \n",nb ) ;
+
+	nb =ETSParRegion("ets.txt", "Kasserine") ;
+	nbTOT += nb ;
+        fprintf(f,"Kasserine, %d \n",nb  ) ;
+
+	nb = ETSParRegion("ets.txt", "Kebili") ;
+	nbTOT += nb ;
+        fprintf(f,"Kebili, %d \n", nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Kef") ;
+	nbTOT += nb ;
+        fprintf(f,"Kef, %d \n", nb  ) ;
+
+	nb = ETSParRegion("ets.txt", "Mahdia") ;
+	nbTOT += nb ;
+        fprintf(f,"Mahdia, %d \n", nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Manouba")  ;
+	nbTOT += nb ;
+        fprintf(f,"Manouba, %d \n", nb) ;
+
+	nb = ETSParRegion("ets.txt", "Medenine")  ;
+	nbTOT += nb ;
+        fprintf(f,"Medenine, %d \n",nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Monastir")  ;
+	nbTOT += nb ;
+        fprintf(f,"Monastir, %d \n",nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Nabeul") ;
+	nbTOT += nb ;
+        fprintf(f,"Nabeul, %d \n", nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Sfax") ;
+	nbTOT += nb ;
+        fprintf(f,"Sfax, %d \n", nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Sidi Bouzid") ;
+	nbTOT += nb ;
+        fprintf(f,"Sidi Bouzid, %d \n", nb  ) ;
+
+	nb = ETSParRegion("ets.txt", "Siliana") ;
+	nbTOT += nb ;
+        fprintf(f,"Siliana, %d \n",  nb) ;
+
+	nb = ETSParRegion("ets.txt", "Sousse")  ;
+	nbTOT += nb ;
+        fprintf(f,"Sousse, %d \n",nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Tataouine");
+	nbTOT += nb ;
+        fprintf(f,"Tataouine, %d \n", nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Tozeur") ;
+	nbTOT += nb ;
+        fprintf(f,"Tozeur, %d \n", nb ) ;
+
+	nb = ETSParRegion("ets.txt", "Tunis (capital)")  ;
+	nbTOT += nb ;
+        fprintf(f,"Tunis (capital), %d \n", nb) ;
+
+	nb = ETSParRegion("ets.txt", "Zaghouan")  ;
+	nbTOT += nb ;
+        fprintf(f,"Zaghouan, %d \n", nb) ;
+        fclose(f) ;
+
+        
+    }
+return nbTOT ;
+}
+
+
+void display_ets_Stat(GtkTreeView  *liste , char nomFIchier[]){
+	GtkCellRenderer *renderer ; //cell displayer 
+	GtkTreeViewColumn *column ; 	// columns visualisation 
+	GtkTreeIter iter;  //iterateur
+	GtkListStore *store ; // creation of a model with type list 
+	int nbre , totalETS= 0;
+	char region[30];
+	store=NULL ; 
+	
+	FILE *f ; 
+	store=GTK_LIST_STORE(gtk_tree_view_get_model(liste) ) ;
+	if (store==NULL){
+		renderer = gtk_cell_renderer_text_new() ;
+		column = gtk_tree_view_column_new_with_attributes(" Region",renderer,"text",REGIONS,NULL);
+		gtk_tree_view_column_set_sizing(column,GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+		g_object_set_data(G_OBJECT(renderer), "column-id", GINT_TO_POINTER(REGIONS));
+		g_signal_connect(renderer, "edited", G_CALLBACK(on_cell_ets_edited), liste);
+		gtk_tree_view_append_column(GTK_TREE_VIEW(liste), column);	
+
+		renderer = gtk_cell_renderer_text_new() ;
+		column = gtk_tree_view_column_new_with_attributes(" Nombre d'etablissement",renderer,"text",NBRE,NULL);
+		gtk_tree_view_column_set_sizing(column,GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+		g_object_set_data(G_OBJECT(renderer), "column-id", GINT_TO_POINTER(NBRE));
+		
+
+		g_signal_connect(renderer, "edited", G_CALLBACK(on_cell_ets_edited), liste);
+		gtk_tree_view_append_column(GTK_TREE_VIEW(liste), column);
+
+
+
+		gtk_tree_view_column_set_sizing(column,GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+
+
+		store=gtk_list_store_new (COLUM, G_TYPE_STRING ,G_TYPE_INT ) ;
+
+		f= fopen(nomFIchier,"r");
+		
+		if(f==NULL) {
+			return ;	
+		}else {
+			
+			while(fscanf(f,"%29[^,], %d \n",region,&nbre )== 2 ) {
+				totalETS++ ;
+				gtk_list_store_append(store,&iter);
+				gtk_list_store_set(store,&iter,REGIONS,region,NBRE,nbre,-1);
+				if (feof(f) ) break ;
+			}
+			fclose(f) ;
+			gtk_tree_view_set_model(GTK_TREE_VIEW(liste) , GTK_TREE_MODEL(store)) ;
+			
+			
+		}
+	
+		
+	}
+
+
+}
 void searcherETS(const char *fileName , const char *key ) {
 	FILE *file = fopen(fileName, "r");
 	FILE *file2 = fopen("searchResult.txt", "w");
 	ETS newEts ;
+	    char keyLower[30];
+	    strcpy(keyLower, key);
+	    for (int i = 0; i<strlen(key); i++) {
+		keyLower[i] = tolower(keyLower[i]);
+	    }
+
 	char IDtostr[30] , capaciteTostr[30] ; 
 	
 	if (file != NULL  ) {
         	while( (fscanf(file,"%d, %29[^,], %29[^,], %29[^,], %d \n", &newEts.ID ,newEts.Nom ,newEts.Adresse,newEts.Region ,&newEts.Capacite )) == 5 )  {
 			sprintf(IDtostr, "%d" , newEts.ID);
 			sprintf(capaciteTostr, "%d" , newEts.Capacite);
-		   	if ((strstr(key, newEts.Nom) != NULL)||(strstr(key, newEts.Adresse) != NULL)||(strstr(key, newEts.Region) != NULL)||(strstr(key, IDtostr) != NULL)||(strstr(key, capaciteTostr) != NULL)  ) {
+
+			        char userFieldsLower[200];
+				strcpy(userFieldsLower, IDtostr);
+				strcat(userFieldsLower, newEts.Nom);
+				strcat(userFieldsLower, newEts.Adresse);
+				strcat(userFieldsLower, newEts.Region);
+				strcat(userFieldsLower, capaciteTostr);
+				for (int i = 0; i<strlen(userFieldsLower); i++) {
+						userFieldsLower[i] = tolower(userFieldsLower[i]);
+					    }
+		   		if (strstr(userFieldsLower, keyLower) != NULL ) {
 				fprintf(file2,"%d, %s, %s, %s, %d \n",newEts.ID ,newEts.Nom ,newEts.Adresse , newEts.Region , newEts.Capacite  );
 		    	if (feof(file2)) {break ;}
+				
 		    	}
         	}
     	}

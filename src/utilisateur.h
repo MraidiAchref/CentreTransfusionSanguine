@@ -51,6 +51,7 @@ void UserSexe(char nomFichier[], char sexe[]);
 int is_ID_exists(const char *ID);
 void on_cell_edited(GtkCellRendererText *renderer, gchar *path_string, gchar *new_text, gpointer user_data) ;
 void search_character(const char nomFichier[], const char *searchTerm);
+void countUsersByRole(char *fileName, int *numMedecine, int *numInfimier, int *numResponsable);
 
 
 

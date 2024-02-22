@@ -3,6 +3,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include "utilisateur.h"
+#include <ctype.h>
 
 
 
@@ -406,16 +407,37 @@ void search_character(const char nomFichier[], const char *searchTerm) {
 
     Utilisateur user;
 
+    // Convert the searchTerm to lowercase (or uppercase) for case-insensitive comparison
+    char searchTermLower[30];
+    strcpy(searchTermLower, searchTerm);
+    for (int i = 0; searchTermLower[i]; i++) {
+        searchTermLower[i] = tolower(searchTermLower[i]);
+    }
+
     while (fscanf(inputFile, "%29[^,], %29[^,], %29[^,], %29[^,], %29[^,], %d-%d-%d, %29[^,],\n",
                   user.ID, user.Nom, user.Prenom, user.Sexe, user.Role, &user.D.day, &user.D.month, &user.D.year,
                   user.Password) != EOF) {
 
+        // Convert date fields to string for comparison
         char dateStr[20];
         snprintf(dateStr, sizeof(dateStr), "%d-%d-%d", user.D.day, user.D.month, user.D.year);
 
-        if (strstr(user.ID, searchTerm) || strstr(user.Nom, searchTerm) || strstr(user.Prenom, searchTerm) ||
-            strstr(user.Sexe, searchTerm) || strstr(user.Role, searchTerm) || strstr(user.Password, searchTerm) ||
-            strstr(dateStr, searchTerm)) {
+        // Convert user data to lowercase (or uppercase) for case-insensitive comparison
+        char userFieldsLower[30];
+        strcpy(userFieldsLower, user.ID);
+        strcat(userFieldsLower, user.Nom);
+        strcat(userFieldsLower, user.Prenom);
+        strcat(userFieldsLower, user.Sexe);
+        strcat(userFieldsLower, user.Role);
+        strcat(userFieldsLower, user.Password);
+
+        for (int i = 0; userFieldsLower[i]; i++) {
+            userFieldsLower[i] = tolower(userFieldsLower[i]);
+        }
+
+        // Check if the searchTerm is present in any of the user fields
+        if (strstr(userFieldsLower, searchTermLower) != NULL ||
+            strstr(dateStr, searchTerm) != NULL) {
             fprintf(outputFile, "%s, %s, %s, %s, %s, %d-%d-%d, %s,\n",
                     user.ID, user.Nom, user.Prenom, user.Sexe, user.Role, user.D.day, user.D.month, user.D.year,
                     user.Password);
@@ -428,7 +450,35 @@ void search_character(const char nomFichier[], const char *searchTerm) {
 
 
 
+// Function to get the number of users for each role
+void countUsersByRole(char *fileName, int *numMedecine, int *numInfimier, int *numResponsable) {
+    FILE *file = fopen(fileName, "r");
 
+    if (file == NULL) {
+        perror("Error opening file");
+        return;
+    }
+
+    Utilisateur user;
+    *numMedecine = 0;
+    *numInfimier = 0;
+    *numResponsable = 0;
+
+   while (fscanf(file, "%29[^,], %29[^,], %29[^,], %29[^,], %29[^,], %d-%d-%d, %29[^,],\n",
+                  user.ID, user.Nom, user.Prenom, user.Sexe, user.Role, &user.D.day, &user.D.month, &user.D.year,
+                  user.Password) != EOF)  {
+        // Count users for each role
+        if (strcmp(user.Role, "Medecin Biologiste") == 0) {
+            (*numMedecine)++;
+        } else if (strcmp(user.Role, "Infirmier") == 0) {
+            (*numInfimier)++;
+        } else if (strcmp(user.Role, "Responsable ETS") == 0) {
+            (*numResponsable)++;
+        }
+    }
+
+    fclose(file);
+}
 
 
 

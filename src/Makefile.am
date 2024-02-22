@@ -13,7 +13,12 @@ test_SOURCES = \
 	interface.c interface.h \
 	callbacks.c callbacks.h \
 	ets.c ets.h \
-	utilisateur.c utilisateur.h
+	utilisateur.c utilisateur.h \
+	rdv.c rdv.h \
+	fonction.c fonction.h \
+	yassAjoutRegister.c yassAjoutRegister.h \
+	yassVerifLogin.c yassVerifLogin.h \
+	fonctions.c fonctions.h
 
 test_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 

@@ -1,0 +1,23 @@
+Ariana, 0 
+Ben Arous, 0 
+Bizerte, 0 
+Gabès, 0 
+Gafsa, 0 
+Jendouba, 1 
+Kairouan, 1 
+Kasserine, 0 
+Kebili, 0 
+Kef, 0 
+Mahdia, 0 
+Manouba, 0 
+Medenine, 0 
+Monastir, 0 
+Nabeul, 0 
+Sfax, 1 
+Sidi Bouzid, 0 
+Siliana, 0 
+Sousse, 1 
+Tataouine, 0 
+Tozeur, 0 
+Tunis (capital), 1 
+Zaghouan, 0 

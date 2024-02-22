@@ -100,7 +100,9 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_test_OBJECTS = main.$(OBJEXT) support.$(OBJEXT) interface.$(OBJEXT) \
-	callbacks.$(OBJEXT) ets.$(OBJEXT) utilisateur.$(OBJEXT)
+	callbacks.$(OBJEXT) ets.$(OBJEXT) utilisateur.$(OBJEXT) \
+	rdv.$(OBJEXT) fonction.$(OBJEXT) yassAjoutRegister.$(OBJEXT) \
+	yassVerifLogin.$(OBJEXT) fonctions.$(OBJEXT)
 test_OBJECTS = $(am_test_OBJECTS)
 am__DEPENDENCIES_1 =
 test_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -283,7 +285,12 @@ test_SOURCES = \
 	interface.c interface.h \
 	callbacks.c callbacks.h \
 	ets.c ets.h \
-	utilisateur.c utilisateur.h
+	utilisateur.c utilisateur.h \
+	rdv.c rdv.h \
+	fonction.c fonction.h \
+	yassAjoutRegister.c yassAjoutRegister.h \
+	yassVerifLogin.c yassVerifLogin.h \
+	fonctions.c fonctions.h
 
 test_LDADD = @PACKAGE_LIBS@ $(INTLLIBS)
 all: all-am
@@ -374,10 +381,15 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/callbacks.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ets.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fonction.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fonctions.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/interface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rdv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/support.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/utilisateur.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/yassAjoutRegister.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/yassVerifLogin.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
